@@ -70,6 +70,13 @@ main(int argc, char *argv[]) {
 	Bool fast = False;
 	int i;
 
+    /* // My options */
+    topbar = False;
+    fstrncmp = strncasecmp;
+    fstrstr = cistrstr;
+    lines = 10;
+    font = "-*-fixed-*-*-*-*-20-*-*-*-*-*-*-*";
+
 	for(i = 1; i < argc; i++)
 		/* these options take no arguments */
 		if(!strcmp(argv[i], "-v")) {      /* prints version information */

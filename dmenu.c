@@ -40,6 +40,7 @@ static void setup(void);
 static void usage(void);
 
 static char text[BUFSIZ] = "";
+static char hitstxt[BUFSIZ] = "";
 static int bh, mw, mh;
 static int inputw, promptw;
 static size_t cursor = 0;
@@ -179,6 +180,12 @@ drawmenu(void) {
 	drawtext(dc, text, normcol);
 	if((curpos = textnw(dc, text, cursor) + dc->h/2 - 2) < dc->w)
 		drawrect(dc, curpos, 2, 1, dc->h - 4, True, FG(dc, normcol));
+
+    /* // Draw hits */
+    dc->w = textw(dc, hitstxt);
+    dc->x = mw - dc->w;
+    drawtext(dc, hitstxt, selcol);
+    dc->x = 0;
 
 	if(lines > 0) {
 		/* draw vertical list */
@@ -394,7 +401,7 @@ match(void) {
 	static int tokn = 0;
 
 	char buf[sizeof text], *s;
-	int i, tokc = 0;
+	int i, tokc = 0, hits = 0;
 	size_t len;
 	Item *item, *lprefix, *lsubstr, *prefixend, *substrend;
 
@@ -419,7 +426,14 @@ match(void) {
 			appenditem(item, &lprefix, &prefixend);
 		else
 			appenditem(item, &lsubstr, &substrend);
+
+        /* // Count hits */
+        hits++;
 	}
+
+    /* // Set hits string */
+    snprintf(hitstxt, sizeof(hitstxt), "(%d)", hits);
+
 	if(lprefix) {
 		if(matches) {
 			matchend->right = lprefix;

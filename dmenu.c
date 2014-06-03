@@ -400,7 +400,6 @@ keypress(XKeyEvent *ev) {
             ret = EXIT_SUCCESS;
             running = False;
         }
-        sel->out = True;
         break;
     case XK_Right:
         if(text[cursor] != '\0') {

@@ -63,8 +63,8 @@ static int ret = EXIT_SUCCESS;
 
 #include "config.h"
 
-static int (*fstrncmp)(const char *, const char *, size_t) = strncmp;
-static char *(*fstrstr)(const char *, const char *) = strstr;
+static int (*fstrncmp)(const char *, const char *, size_t) = strncasecmp;
+static char *(*fstrstr)(const char *, const char *) = cistrstr;
 
 int
 main(int argc, char *argv[]) {
@@ -82,8 +82,8 @@ main(int argc, char *argv[]) {
         else if(!strcmp(argv[i], "-f"))   /* grabs keyboard before reading stdin */
             fast = True;
         else if(!strcmp(argv[i], "-i")) { /* case-insensitive item matching */
-            fstrncmp = strncasecmp;
-            fstrstr = cistrstr;
+            fstrncmp = strncmp;
+            fstrstr = strstr;
         }
         else if(i+1 == argc)
             usage();
